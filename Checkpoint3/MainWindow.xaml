@@ -1,0 +1,19 @@
+﻿<Window x:Class="Checkpoint3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Checkpoint3"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="DarkCyan">
+        <TextBox x:Name="PathTextBox" Margin="41,34,531,354"></TextBox>
+        <Button x:Name="DisplayFile_Button" Content="Display file" Click="DisplayFile_Button_Click" Margin="293,22,411,354"></Button>
+        <Button x:Name="DeleteFile_Button" Content="Delete file" Click="DeleteFile_Button_Click" Margin="386,22,320,354" RenderTransformOrigin="1.735,2.067"></Button>
+        <Button x:Name="CreateFile_Button" Content="Create file" Click="CreateFile_Button_Click" Margin="477,22,230,354"></Button>
+        <Button x:Name="Reset_Button" Content="Reset" Click="Reset_Button_Click" Margin="567,22,150,354"></Button>
+        <TextBlock x:Name="TextBlock" Margin="41,94,70,32" Background="AliceBlue"></TextBlock>
+
+
+    </Grid>
+</Window>
