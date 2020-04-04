@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="DarkCyan">
+        <Label Content="Put a text name file like 'textFile.txt' : " Foreground="White"></Label>
         <TextBox x:Name="PathTextBox" Margin="41,34,531,354"></TextBox>
         <Button x:Name="DisplayFile_Button" Content="Display file" Click="DisplayFile_Button_Click" Margin="293,22,411,354"></Button>
         <Button x:Name="DeleteFile_Button" Content="Delete file" Click="DeleteFile_Button_Click" Margin="386,22,320,354" RenderTransformOrigin="1.735,2.067"></Button>
