@@ -36,26 +36,43 @@ namespace Checkpoint3
         {
             var Client = new WebClient();
             var path = PathTextBox.Text;
-            var text = Client.DownloadString($"http://localhost:1234/file/C:/Users/Wilder/" + path);
-            
+            var text = Client.DownloadString($"http://localhost:1234/file/" + path);
+            var post = JsonConvert.DeserializeObject(text);
+            TextBlock.Text = (string)post;
         }
 
         private void DeleteFile_Button_Click(object sender, RoutedEventArgs e)
-        {
-            var Client = new WebClient();
+        {           
             var path = PathTextBox.Text;
-            var text = Client.DownloadString($"http://localhost:1234/file/C:/Users/Wilder/" + path);
+            var url = $"http://localhost:1234/file/" + path;
+            using (var client = new WebClient())
+            {
+                client.UploadString(url, "DELETE", "");
+                TextBlock.Text = "File deleted";
+            }
+
+            var request = WebRequest.Create(url);
+            request.Method = "DELETE";
+            var response = (HttpWebResponse)request.GetResponse();
         }
 
         private void CreateFile_Button_Click(object sender, RoutedEventArgs e)
         {
-            var Client = new WebClient();
             var path = PathTextBox.Text;
-            var text = Client.DownloadString($"http://localhost:1234/file/C:/Users/Wilder/" + path);
+            var url = $"http://localhost:1234/file/" + path;
+            using (var client = new WebClient())
+            {
+                client.UploadString(url,"PUT", "");
+                TextBlock.Text = "File created";
+            }
+
+            var request = WebRequest.Create(url);
+            request.Method = "PUT";
         }
 
         private void Reset_Button_Click(object sender, RoutedEventArgs e)
         {
+            PathTextBox.Text = String.Empty;
             TextBlock.Text = String.Empty;
         }
     }

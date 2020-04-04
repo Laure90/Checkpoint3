@@ -5,7 +5,6 @@ using Nancy;
 using Nancy.Hosting.Self;
 using Microsoft.Win32;
 using System.IO;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -17,23 +16,16 @@ namespace NancyService
         public HomeModule()
         {
             Get("/", _ => "Hello world");
-            Get("/file/{pathFile}", parameter =>
-            {
-                string fp = "TestFile/" + parameter.FilePath;
-                string readText = File.ReadAllText(fp);
-                string jsonString;
-                jsonString = System.Text.Json.JsonSerializer.Serialize(readText);
-                return jsonString;
-            });
-            //Get("/delete/file/{pathFile}", parameter => DeleteFile(parameter.Path));
-            //Get("/put/file/{pathFile}", parameters => CreateFile(parameters.Path, parameters.Name));
+            Get("/file/{pathFile}", parameter => ReturnFileContent(parameter.pathFile));
+            Put("/file/{pathFile}", parameter => CreateFile(parameter.pathFile));
+            Delete("/file/{pathFile}", parameter => DeleteFile(parameter.pathFile));
         }
 
-        public dynamic ReturnFileData(string filePath)
+        public dynamic ReturnFileContent(string filePath)
         {
             string fp = "TestFile/" + filePath;
             string jsonString;
-            if (!File.Exists(fp))
+            if (File.Exists(fp))
             {
                 string readText = File.ReadAllText(fp);
                 jsonString = System.Text.Json.JsonSerializer.Serialize(readText);
@@ -47,21 +39,31 @@ namespace NancyService
 
         public dynamic DeleteFile(string filePath)
         {
-            string fp = "@" + filePath;
-            File.Delete(fp);
-            return "File deleted";
+            string fp = "TestFile/" + filePath;
+            string jsonString;
+            if (File.Exists(fp))
+            {
+                File.Delete(fp);
+                jsonString = System.Text.Json.JsonSerializer.Serialize("File deleted");
+            }
+            else
+            {
+                jsonString = System.Text.Json.JsonSerializer.Serialize("The file doesn't exist.");
+            }            
+            return jsonString;
         }
 
-        public dynamic CreateFile(string filePath, string name)
+        public dynamic CreateFile(string filePath)
         {
             string jsonString;
-            string path = "@" + filePath;
+            string path = "TestFile/" + filePath;
             if (!File.Exists(path))
             {
                 FilePath newFile = new FilePath();
-                newFile.Path = filePath;
-                newFile.Name = name + ".txt";
-                File.Create(newFile.Path);
+                newFile.Path = path;
+               
+                FileStream currentFIle = File.Create(newFile.Path);
+                currentFIle.Close();
                 jsonString = System.Text.Json.JsonSerializer.Serialize("File is created");
                 return jsonString;
             }
